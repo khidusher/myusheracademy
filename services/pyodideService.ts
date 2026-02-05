@@ -21,6 +21,15 @@ export const initPyodide = async () => {
     indexURL: "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/"
   }).then((instance: any) => {
     pyodideInstance = instance;
+    
+    // Set up interactive input using browser prompt
+    pyodideInstance.setStdin({
+      stdin: () => {
+        const result = window.prompt("Python input required:");
+        return result !== null ? result : "";
+      }
+    });
+
     return pyodideInstance;
   });
 
@@ -31,7 +40,8 @@ export const runPythonCode = async (code: string): Promise<{ output: string; err
   try {
     const pyodide = await initPyodide();
     
-    // Redirect stdout to a string buffer
+    // Redirect stdout and stderr to a string buffer
+    // We do this inside the execution to ensure we start with a fresh buffer
     pyodide.runPython(`
 import sys
 import io
@@ -39,8 +49,10 @@ sys.stdout = io.StringIO()
 sys.stderr = io.StringIO()
     `);
     
+    // Execute the user's code
     await pyodide.runPythonAsync(code);
     
+    // Retrieve the contents of the buffers
     const stdout = pyodide.runPython('sys.stdout.getvalue()');
     const stderr = pyodide.runPython('sys.stderr.getvalue()');
     
@@ -50,9 +62,11 @@ sys.stderr = io.StringIO()
     };
   } catch (err: any) {
     let errMsg = err.message;
+    // Clean up traceback for beginner friendliness
     if (errMsg.includes('Traceback')) {
       const lines = errMsg.split('\n');
-      errMsg = lines.slice(-2).join('\n');
+      // Usually the last few lines are the most helpful (the error type and message)
+      errMsg = lines.slice(-3).join('\n');
     }
     return { output: '', error: errMsg };
   }

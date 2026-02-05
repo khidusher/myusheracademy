@@ -49,10 +49,10 @@ export const LESSONS: Lesson[] = [
     description: 'Wrapping your text.',
     concept: "When we want Python to handle text, we call it a 'String'. You must wrap Strings in quotation marks \" \" or ' '. Without them, Python thinks you are talking about a variable (which we learn later).",
     example: 'print("Waakye is life")\nprint(\'Jollof is also life\')',
-    challenge: 'Print your favorite Ghanaian dish using single quotes \' \'.',
+    challenge: 'Print your favorite Ghanaian dish (e.g., Banku) using single quotes \' \'.',
     initialCode: '# Use single quotes:\n',
     solution: "print('Banku')",
-    testCases: [{ expected: '', hint: "Use print('YourFood')" }],
+    testCases: [{ expected: 'Banku', hint: "Use print('Banku')" }],
     xp: 30
   },
   {
@@ -101,12 +101,12 @@ export const LESSONS: Lesson[] = [
     title: 'Listening (Input)',
     region: 'Level 2: Core Basics',
     description: 'Asking the user questions.',
-    concept: "Sometimes we need to ask the user for information. We use the 'input()' function. It pauses the code and waits for the user to type something. We usually store the answer in a variable!",
+    concept: "Sometimes we need to ask the user for information. We use the 'input()' function. It pauses the code and waits for the user to type something. Note: A popup will appear in your browser to collect your answer!",
     example: 'name = input("Enter your name: ")\nprint("Welcome " + name)',
-    challenge: 'Ask the user "What is your location?" using input(), store it in a variable called "place", then print "place".',
+    challenge: 'Ask the user "What is your location?" using input(), store it in a variable called "place", then print that variable.',
     initialCode: '# Ask for location and print it:\n',
     solution: 'place = input("What is your location? ")\nprint(place)',
-    testCases: [{ expected: '', hint: 'Use place = input("...") then print(place)' }],
+    testCases: [{ expected: '', hint: 'Use place = input("...") then print(place). Since your input can be anything, we just check if you printed something!' }],
     xp: 60
   },
   {
